@@ -10,29 +10,52 @@ def menu(): # Um monte de printkk
     print("7 - Sair")
 
 def registerProduct(): # Registra o produto
-    name = input("Nome:")
-    quantity =  int(input("Quantidade: "))
-    value = float(input("Preço: "))
+    while True: # Para quando digitar menu antes de terminar o cadastro saia e vá para o menu
+        while True:
+            name = input("Nome:")
+            if name.lower() == "menu":
+                return False
+            elif re.match("^[A-Za-zÀ-ÿ]+$", name): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
+                break
+            elif name.strip() == "":
+                print("\nO nome não pode estar em branco")
+                print("Digite 'menu' para voltar ao menu")
+            else:
+                print("\nNome inválido. O nome deve conter apenas letras e espaços. Tente novamente.")
+                print("Digite 'menu' para voltar ao menu")
 
-    product = {"nome":name, "quantidade":quantity ,"valor":value}
-    products.append(product) # Adiciona a lista
-    while True:
-        repeat = input("\nCadastra novamente? (y/n): \n").strip().lower()
+        while True:
+            try:       
+                quantity =  int(input("Quantidade: "))
+                break
+            except ValueError:
+                print("\nEntrada inválida. Tente novamente.\n")
+        while True:
+            try:  
+                value = float(input("Preço: "))
+                break
+            except ValueError:
+                print("\nEntrada inválida. Tente novamente.\n")
 
-        if repeat == "y":
-            return True
-        
-        elif repeat == "n":
-            return False
-        
-        else:
-            print("Por gentileza retorne um valor correto!")
+        product = {"nome":name, "quantidade":quantity ,"valor":value}
+        products.append(product) # Adiciona a lista
+        while True:
+            repeat = input("\nCadastra novamente? (y/n): \n").strip().lower()
+
+            if repeat == "y":
+                return True
+            
+            elif repeat == "n":
+                return False
+            
+            else:
+                print("Por gentileza retorne um valor correto!")
 
 def productsList(): # Mostra os produtos cadastrados na lista
     if products:
         print("\nProdutos em estoque:\n")
-        for i, product in enumerate(products):
-            print(f"{i}. Nome: {product["nome"]} | {product["quantidade"]}un | R${product["valor"]}")
+    for i, product in enumerate(products):
+        print(f"{i}. Nome: {product["nome"]} | {product["quantidade"]}un | R${product["valor"]}")
     else:
         print("\nNão há nenhum produto no estoque.\n")    
 
@@ -71,23 +94,30 @@ while True: # Escolhe as opçoes do menu
                             if name_input == "":
                                 break
                             
-                            if re.match("^[A-Za-zÀ-ÿ\s]+$", name_input): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
+                            if re.match("^[A-Za-zÀ-ÿ]+$", name_input): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
                                 products[index]["nome"] = name_input
                                 break
                             else:
                                 print("\nNome inválido. O nome deve conter apenas letras e espaços. Tente novamente.")
                              
 
-                        while True: # Loop para verificar se o que o user digitou é válido para a opção.
+                        while True:  # Loop para verificar se o que o user digitou é válido para a opção.
                             try:
-                                products[index]["quantidade"] = int(input("Digite a nova quantidade |Ou Enter para não mudar!|:")) or products[index]["quantidade"]
+                                quantity_input = input("Digite a nova quantidade |Ou Enter para não mudar!|: ")
+                                if quantity_input.strip() == "":  
+                                    break
+                                products[index]["quantidade"] = int(quantity_input)
                                 break
                             except ValueError:
-                                print("\nEntrada inválida. Tente novamente.\n")  
+                                print("\nEntrada inválida. Tente novamente.\n")
+
 
                         while True: # Loop para verificar se o que o user digitou é válido para a opção.
                             try:
-                                products[index]["valor"] = float(input("Digite o novo valor |Ou Enter para não mudar!|:")) or products[index]["valor"]
+                                value_input = input("Digite o novo valor |Ou Enter para não mudar!|:")
+                                if value_input.strip() == "":
+                                    break
+                                products[index]["valor"] = float(value_input)
                                 break
                             except ValueError:
                                 print("\nEntrada inválida. Tente novamente.\n")
