@@ -15,7 +15,7 @@ def registerProduct(): # Registra o produto
             name = input("Nome:")
             if name.lower() == "menu":
                 return False
-            elif re.match("^[A-Za-zÀ-ÿ]+$", name): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
+            elif re.match("^[A-Za-zÀ-ÿ\s]+$", name): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
                 break
             elif name.strip() == "":
                 print("\nO nome não pode estar em branco")
@@ -54,8 +54,8 @@ def registerProduct(): # Registra o produto
 def productsList(): # Mostra os produtos cadastrados na lista
     if products:
         print("\nProdutos em estoque:\n")
-    for i, product in enumerate(products):
-        print(f"{i}. Nome: {product["nome"]} | {product["quantidade"]}un | R${product["valor"]}")
+        for i, product in enumerate(products):
+            print(f"{i}. Nome: {product["nome"]} | {product["quantidade"]}un | R${product["valor"]}")
     else:
         print("\nNão há nenhum produto no estoque.\n")    
 
@@ -94,7 +94,7 @@ while True: # Escolhe as opçoes do menu
                             if name_input == "":
                                 break
                             
-                            if re.match("^[A-Za-zÀ-ÿ]+$", name_input): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
+                            if re.match("^[A-Za-zÀ-ÿ\s]+$", name_input): # Uso da biblioteca re para verificar se o nome não vai ser um número ou outro caractere
                                 products[index]["nome"] = name_input
                                 break
                             else:
